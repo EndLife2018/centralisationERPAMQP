@@ -1,26 +1,22 @@
 package guru.springframework.listener;
 
-import guru.springframework.domain.Product;
 import guru.springframework.repositories.ProductRepository;
-import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
-import org.springframework.stereotype.Component;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.Map;
+import org.springframework.stereotype.Component;
 
 /**
  * This is the queue listener class, its receiveMessage() method ios invoked with the
  * message as the parameter.
  */
 @Component
-public class ProductMessageListener {
+public class ArticleMessageListener {
 
     private ProductRepository productRepository;
 
-    private static final Logger log = LogManager.getLogger(ProductMessageListener.class);
+    private static final Logger log = LogManager.getLogger(ArticleMessageListener.class);
 
-    public ProductMessageListener(ProductRepository productRepository) {
+    public ArticleMessageListener(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
