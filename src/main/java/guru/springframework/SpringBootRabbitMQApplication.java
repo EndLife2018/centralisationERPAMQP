@@ -19,11 +19,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.handler.annotation.support.DefaultMessageHandlerMethodFactory;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
+@EnableScheduling
 public class SpringBootRabbitMQApplication implements RabbitListenerConfigurer {
 
 	public final static String SFG_MESSAGE_QUEUE_ARTICLE = "store-article";
+    public final static String SFG_MESSAGE_CALLBACK_ARTICLE = "callback-article";
+    public final static String SFG_MESSAGE_SYNC = "sync-base";
 	public final static String SFG_MESSAGE_QUEUE_CLIENT = "store-client";
 	public final static String EXCHANGE_NAME = "amq.topic";
 
@@ -42,7 +46,13 @@ public class SpringBootRabbitMQApplication implements RabbitListenerConfigurer {
 		return new Queue(SFG_MESSAGE_QUEUE_CLIENT);
 	}
 
-	@Bean
+    @Bean
+    public Queue appQueueSync() {
+        return new Queue(SFG_MESSAGE_SYNC);
+    }
+
+
+    @Bean
 	public Binding declareBindingGeneric() {
 		return BindingBuilder.bind(appQueueGeneric()).to(appExchange()).with(SFG_MESSAGE_QUEUE_ARTICLE);
 	}
@@ -51,6 +61,11 @@ public class SpringBootRabbitMQApplication implements RabbitListenerConfigurer {
 	public Binding declareBindingSpecific() {
 		return BindingBuilder.bind(appQueueSpecific()).to(appExchange()).with(SFG_MESSAGE_QUEUE_CLIENT);
 	}
+
+    @Bean
+    public Binding declareBindingSync() {
+        return BindingBuilder.bind(appQueueSpecific()).to(appExchange()).with(SFG_MESSAGE_SYNC);
+    }
 
 	public MappingJackson2MessageConverter consumerJackson2MessageConverter() {
 		return new MappingJackson2MessageConverter();

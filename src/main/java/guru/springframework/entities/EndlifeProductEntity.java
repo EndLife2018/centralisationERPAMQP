@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "endlife_product", schema = "erp", catalog = "")
-public class EndlifeProductEntity {
+public class EndlifeProductEntity implements Serializable {
     private int rowid;
     private String ref;
     private int entity;
@@ -91,6 +91,7 @@ public class EndlifeProductEntity {
     public void setRowid(int rowid) {
         this.rowid = rowid;
     }
+
     @Basic
     @Column(name = "ref")
     public String getRef() {
