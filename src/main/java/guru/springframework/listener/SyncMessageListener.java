@@ -11,12 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.thymeleaf.util.DateUtils;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -46,9 +44,14 @@ public class SyncMessageListener {
      */
     @RabbitListener(queues = SpringBootRabbitMQApplication.SFG_MESSAGE_SYNC)
     public void receiveMessage(String date) throws JsonProcessingException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        LocalDateTime d = LocalDateTime.parse(date, formatter);
-        List<EndlifeProductEntity> productsToSend = endLifeProductRepository.findAllByTmsAfter(Date.from(d.toInstant(ZoneOffset.UTC)));
+        List<EndlifeProductEntity> productsToSend = new ArrayList<>();
+        if(date.equals("-1")) {
+            productsToSend = (List<EndlifeProductEntity>) endLifeProductRepository.findAll();
+        } else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+            LocalDateTime d = LocalDateTime.parse(date, formatter);
+            productsToSend = endLifeProductRepository.findAllByTmsAfter(Date.from(d.toInstant(ZoneOffset.UTC)));
+        }
         ObjectMapper mapper = new ObjectMapper();
         String jsonProducts = mapper.writeValueAsString(productsToSend);
         log.info("Sending data");

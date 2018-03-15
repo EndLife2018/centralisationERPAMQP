@@ -38,7 +38,6 @@ public class ArticleMessageListener {
     @RabbitListener(queues = SpringBootRabbitMQApplication.SFG_MESSAGE_QUEUE_ARTICLE)
     public void receiveMessage(EndlifeProductEntity productEntity) {
         List<EndlifeProductEntity> list = new ArrayList<>();
-        List<EndlifeProductEntity> list2 = list.stream().filter(f -> f.getIsSync() == 0).collect(Collectors.toList());
         log.info("Received <" + productEntity + ">");
         if(productEntity.getCrud().equals("STORE")) {
             try {
