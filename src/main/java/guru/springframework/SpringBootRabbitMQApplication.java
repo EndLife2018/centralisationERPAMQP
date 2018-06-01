@@ -26,8 +26,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class SpringBootRabbitMQApplication implements RabbitListenerConfigurer {
 
 	public final static String SFG_MESSAGE_QUEUE_ARTICLE = "store-article";
-    public final static String SFG_MESSAGE_CALLBACK_ARTICLE = "callback-article";
-    public final static String SFG_MESSAGE_SYNC = "sync-base";
+	public final static String SFG_MESSAGE_QUEUE_INGREDIENT = "store-ingredient";
+	public final static String SFG_MESSAGE_CALLBACK_ARTICLE = "callback-article";
+	public final static String SFG_MESSAGE_CALLBACK_INGREDIENT = "callback-ingredient";
+	public final static String SFG_MESSAGE_SYNC = "sync-base";
 	public final static String SFG_MESSAGE_QUEUE_CLIENT = "store-client";
 	public final static String EXCHANGE_NAME = "amq.topic";
 
@@ -38,23 +40,38 @@ public class SpringBootRabbitMQApplication implements RabbitListenerConfigurer {
 
 	@Bean
 	public Queue appQueueGeneric() {
-		return new Queue(SFG_MESSAGE_QUEUE_ARTICLE);
+		return new Queue(SFG_MESSAGE_QUEUE_ARTICLE, true);
+	}
+
+	@Bean
+	public Queue appQueueIngredient() {
+		return new Queue(SFG_MESSAGE_QUEUE_INGREDIENT, true);
+	}
+
+	@Bean
+	public Queue appQueueIngredientCllback() {
+		return new Queue(SFG_MESSAGE_CALLBACK_INGREDIENT, true);
 	}
 
 	@Bean
 	public Queue appQueueSpecific() {
-		return new Queue(SFG_MESSAGE_QUEUE_CLIENT);
+		return new Queue(SFG_MESSAGE_QUEUE_CLIENT, true);
 	}
 
     @Bean
     public Queue appQueueSync() {
-        return new Queue(SFG_MESSAGE_SYNC);
+        return new Queue(SFG_MESSAGE_SYNC, true);
     }
 
 
     @Bean
 	public Binding declareBindingGeneric() {
 		return BindingBuilder.bind(appQueueGeneric()).to(appExchange()).with(SFG_MESSAGE_QUEUE_ARTICLE);
+	}
+
+	@Bean
+	public Binding declareBindingIngredient() {
+		return BindingBuilder.bind(appQueueGeneric()).to(appExchange()).with(SFG_MESSAGE_QUEUE_INGREDIENT);
 	}
 
 	@Bean

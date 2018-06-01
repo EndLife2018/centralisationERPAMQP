@@ -12,4 +12,6 @@ import java.util.List;
  */
 public interface EndLifeProductRepository extends CrudRepository<EndlifeProductEntity, Long> {
     List<EndlifeProductEntity> findAllByTmsAfter(Date lastSync);
+
+    EndlifeProductEntity findDistinctByRefEquals(String ref);
 }

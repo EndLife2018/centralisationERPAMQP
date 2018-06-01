@@ -1,13 +1,13 @@
 package guru.springframework.entities;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 @Table(name = "endlife_product", schema = "erp", catalog = "")
-public class EndlifeProductEntity implements Serializable {
+public class EndlifeProductEntity {
     private int rowid;
     private String ref;
     private int entity;
@@ -71,6 +71,16 @@ public class EndlifeProductEntity implements Serializable {
     private Integer fkPriceExpression;
     private Integer desiredstock;
     private Byte priceAutogen;
+    private Byte isSync;
+    //private Collection<EndlifeCategorieProductEntity> endlifeCategorieProductsByRowid;
+    /*private Collection<EndlifeContratdetEntity> endlifeContratdetsByRowid;
+    private EndlifeCCountryEntity endlifeCCountryByFkCountry;
+    private EndlifeCBarcodeTypeEntity endlifeCBarcodeTypeByFkBarcodeType;
+    private EndlifeCUnitsEntity endlifeCUnitsByFkUnit;
+    private Collection<EndlifeProductCustomerPriceEntity> endlifeProductCustomerPricesByRowid;
+    private Collection<EndlifeProductFournisseurPriceEntity> endlifeProductFournisseurPricesByRowid;
+    private Collection<EndlifeProductLangEntity> endlifeProductLangsByRowid;
+    private Collection<EndlifeProductPriceEntity> endlifeProductPricesByRowid;*/
     private String crud;
 
     @Transient
@@ -83,7 +93,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Id
-    @Column(name = "rowid")
+    @Column(name = "rowid", nullable = false)
     public int getRowid() {
         return rowid;
     }
@@ -93,9 +103,9 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "ref")
+    @Column(name = "ref", nullable = false, length = 128)
     public String getRef() {
-        return "0"+ rowid;
+        return ref;
     }
 
     public void setRef(String ref) {
@@ -103,7 +113,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "entity")
+    @Column(name = "entity", nullable = false)
     public int getEntity() {
         return entity;
     }
@@ -113,7 +123,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "ref_ext")
+    @Column(name = "ref_ext", nullable = true, length = 128)
     public String getRefExt() {
         return refExt;
     }
@@ -123,7 +133,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "datec")
+    @Column(name = "datec", nullable = true)
     public Timestamp getDatec() {
         return datec;
     }
@@ -133,7 +143,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "tms")
+    @Column(name = "tms", nullable = false)
     public Timestamp getTms() {
         return tms;
     }
@@ -143,7 +153,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "fk_parent")
+    @Column(name = "fk_parent", nullable = true)
     public Integer getFkParent() {
         return fkParent;
     }
@@ -153,7 +163,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "label")
+    @Column(name = "label", nullable = false, length = 255)
     public String getLabel() {
         return label;
     }
@@ -163,7 +173,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "description")
+    @Column(name = "description", nullable = true, length = -1)
     public String getDescription() {
         return description;
     }
@@ -173,7 +183,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "note_public")
+    @Column(name = "note_public", nullable = true, length = -1)
     public String getNotePublic() {
         return notePublic;
     }
@@ -183,7 +193,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "note")
+    @Column(name = "note", nullable = true, length = -1)
     public String getNote() {
         return note;
     }
@@ -193,7 +203,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "customcode")
+    @Column(name = "customcode", nullable = true, length = 32)
     public String getCustomcode() {
         return customcode;
     }
@@ -203,7 +213,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "price")
+    @Column(name = "price", nullable = true, precision = 8)
     public Double getPrice() {
         return price;
     }
@@ -213,7 +223,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "price_ttc")
+    @Column(name = "price_ttc", nullable = true, precision = 8)
     public Double getPriceTtc() {
         return priceTtc;
     }
@@ -223,7 +233,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "price_min")
+    @Column(name = "price_min", nullable = true, precision = 8)
     public Double getPriceMin() {
         return priceMin;
     }
@@ -233,7 +243,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "price_min_ttc")
+    @Column(name = "price_min_ttc", nullable = true, precision = 8)
     public Double getPriceMinTtc() {
         return priceMinTtc;
     }
@@ -243,7 +253,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "price_base_type")
+    @Column(name = "price_base_type", nullable = true, length = 3)
     public String getPriceBaseType() {
         return priceBaseType;
     }
@@ -253,7 +263,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "cost_price")
+    @Column(name = "cost_price", nullable = true, precision = 8)
     public Double getCostPrice() {
         return costPrice;
     }
@@ -263,7 +273,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "default_vat_code")
+    @Column(name = "default_vat_code", nullable = true, length = 10)
     public String getDefaultVatCode() {
         return defaultVatCode;
     }
@@ -273,7 +283,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "tva_tx")
+    @Column(name = "tva_tx", nullable = true, precision = 3)
     public Double getTvaTx() {
         return tvaTx;
     }
@@ -283,7 +293,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "recuperableonly")
+    @Column(name = "recuperableonly", nullable = false)
     public int getRecuperableonly() {
         return recuperableonly;
     }
@@ -293,7 +303,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "localtax1_tx")
+    @Column(name = "localtax1_tx", nullable = true, precision = 3)
     public Double getLocaltax1Tx() {
         return localtax1Tx;
     }
@@ -303,7 +313,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "localtax1_type")
+    @Column(name = "localtax1_type", nullable = false, length = 10)
     public String getLocaltax1Type() {
         return localtax1Type;
     }
@@ -313,7 +323,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "localtax2_tx")
+    @Column(name = "localtax2_tx", nullable = true, precision = 3)
     public Double getLocaltax2Tx() {
         return localtax2Tx;
     }
@@ -323,7 +333,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "localtax2_type")
+    @Column(name = "localtax2_type", nullable = false, length = 10)
     public String getLocaltax2Type() {
         return localtax2Type;
     }
@@ -333,7 +343,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "fk_user_author")
+    @Column(name = "fk_user_author", nullable = true)
     public Integer getFkUserAuthor() {
         return fkUserAuthor;
     }
@@ -343,7 +353,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "fk_user_modif")
+    @Column(name = "fk_user_modif", nullable = true)
     public Integer getFkUserModif() {
         return fkUserModif;
     }
@@ -353,7 +363,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "tosell")
+    @Column(name = "tosell", nullable = true)
     public Byte getTosell() {
         return tosell;
     }
@@ -363,7 +373,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "tobuy")
+    @Column(name = "tobuy", nullable = true)
     public Byte getTobuy() {
         return tobuy;
     }
@@ -373,7 +383,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "onportal")
+    @Column(name = "onportal", nullable = true)
     public Byte getOnportal() {
         return onportal;
     }
@@ -383,7 +393,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "tobatch")
+    @Column(name = "tobatch", nullable = false)
     public byte getTobatch() {
         return tobatch;
     }
@@ -393,7 +403,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "fk_product_type")
+    @Column(name = "fk_product_type", nullable = true)
     public Integer getFkProductType() {
         return fkProductType;
     }
@@ -403,7 +413,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "duration")
+    @Column(name = "duration", nullable = true, length = 6)
     public String getDuration() {
         return duration;
     }
@@ -413,7 +423,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "seuil_stock_alerte")
+    @Column(name = "seuil_stock_alerte", nullable = true)
     public Integer getSeuilStockAlerte() {
         return seuilStockAlerte;
     }
@@ -423,7 +433,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "url")
+    @Column(name = "url", nullable = true, length = 255)
     public String getUrl() {
         return url;
     }
@@ -433,7 +443,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "barcode")
+    @Column(name = "barcode", nullable = true, length = 255)
     public String getBarcode() {
         return barcode;
     }
@@ -443,7 +453,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "accountancy_code_sell")
+    @Column(name = "accountancy_code_sell", nullable = true, length = 32)
     public String getAccountancyCodeSell() {
         return accountancyCodeSell;
     }
@@ -453,7 +463,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "accountancy_code_buy")
+    @Column(name = "accountancy_code_buy", nullable = true, length = 32)
     public String getAccountancyCodeBuy() {
         return accountancyCodeBuy;
     }
@@ -463,7 +473,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "partnumber")
+    @Column(name = "partnumber", nullable = true, length = 32)
     public String getPartnumber() {
         return partnumber;
     }
@@ -473,7 +483,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "weight")
+    @Column(name = "weight", nullable = true, precision = 0)
     public Double getWeight() {
         return weight;
     }
@@ -483,7 +493,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "weight_units")
+    @Column(name = "weight_units", nullable = true)
     public Byte getWeightUnits() {
         return weightUnits;
     }
@@ -493,7 +503,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "length")
+    @Column(name = "length", nullable = true, precision = 0)
     public Double getLength() {
         return length;
     }
@@ -503,7 +513,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "length_units")
+    @Column(name = "length_units", nullable = true)
     public Byte getLengthUnits() {
         return lengthUnits;
     }
@@ -513,7 +523,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "width")
+    @Column(name = "width", nullable = true, precision = 0)
     public Double getWidth() {
         return width;
     }
@@ -523,7 +533,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "width_units")
+    @Column(name = "width_units", nullable = true)
     public Byte getWidthUnits() {
         return widthUnits;
     }
@@ -533,7 +543,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "height")
+    @Column(name = "height", nullable = true, precision = 0)
     public Double getHeight() {
         return height;
     }
@@ -543,7 +553,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "height_units")
+    @Column(name = "height_units", nullable = true)
     public Byte getHeightUnits() {
         return heightUnits;
     }
@@ -553,7 +563,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "surface")
+    @Column(name = "surface", nullable = true, precision = 0)
     public Double getSurface() {
         return surface;
     }
@@ -563,7 +573,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "surface_units")
+    @Column(name = "surface_units", nullable = true)
     public Byte getSurfaceUnits() {
         return surfaceUnits;
     }
@@ -573,7 +583,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "volume")
+    @Column(name = "volume", nullable = true, precision = 0)
     public Double getVolume() {
         return volume;
     }
@@ -583,7 +593,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "volume_units")
+    @Column(name = "volume_units", nullable = true)
     public Byte getVolumeUnits() {
         return volumeUnits;
     }
@@ -593,7 +603,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "stock")
+    @Column(name = "stock", nullable = true, precision = 0)
     public Double getStock() {
         return stock;
     }
@@ -603,7 +613,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "pmp")
+    @Column(name = "pmp", nullable = false, precision = 8)
     public double getPmp() {
         return pmp;
     }
@@ -613,7 +623,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "fifo")
+    @Column(name = "fifo", nullable = true, precision = 8)
     public Double getFifo() {
         return fifo;
     }
@@ -623,7 +633,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "lifo")
+    @Column(name = "lifo", nullable = true, precision = 8)
     public Double getLifo() {
         return lifo;
     }
@@ -633,7 +643,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "canvas")
+    @Column(name = "canvas", nullable = true, length = 32)
     public String getCanvas() {
         return canvas;
     }
@@ -643,7 +653,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "finished")
+    @Column(name = "finished", nullable = true)
     public Byte getFinished() {
         return finished;
     }
@@ -653,7 +663,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "hidden")
+    @Column(name = "hidden", nullable = true)
     public Byte getHidden() {
         return hidden;
     }
@@ -663,7 +673,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "import_key")
+    @Column(name = "import_key", nullable = true, length = 14)
     public String getImportKey() {
         return importKey;
     }
@@ -673,7 +683,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "model_pdf")
+    @Column(name = "model_pdf", nullable = true, length = 255)
     public String getModelPdf() {
         return modelPdf;
     }
@@ -683,7 +693,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "fk_price_expression")
+    @Column(name = "fk_price_expression", nullable = true)
     public Integer getFkPriceExpression() {
         return fkPriceExpression;
     }
@@ -693,7 +703,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "desiredstock")
+    @Column(name = "desiredstock", nullable = true)
     public Integer getDesiredstock() {
         return desiredstock;
     }
@@ -703,7 +713,7 @@ public class EndlifeProductEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "price_autogen")
+    @Column(name = "price_autogen", nullable = true)
     public Byte getPriceAutogen() {
         return priceAutogen;
     }
@@ -711,6 +721,16 @@ public class EndlifeProductEntity implements Serializable {
     public void setPriceAutogen(Byte priceAutogen) {
         this.priceAutogen = priceAutogen;
     }
+
+    /*@Basic
+    @Column(name = "is_sync", nullable = true)
+    public Byte getIsSync() {
+        return isSync;
+    }
+
+    public void setIsSync(Byte isSync) {
+        this.isSync = isSync;
+    }*/
 
     @Override
     public boolean equals(Object o) {
@@ -779,12 +799,97 @@ public class EndlifeProductEntity implements Serializable {
                 Objects.equals(modelPdf, that.modelPdf) &&
                 Objects.equals(fkPriceExpression, that.fkPriceExpression) &&
                 Objects.equals(desiredstock, that.desiredstock) &&
-                Objects.equals(priceAutogen, that.priceAutogen);
+                Objects.equals(priceAutogen, that.priceAutogen) &&
+                Objects.equals(isSync, that.isSync);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(rowid, ref, entity, refExt, datec, tms, fkParent, label, description, notePublic, note, customcode, price, priceTtc, priceMin, priceMinTtc, priceBaseType, costPrice, defaultVatCode, tvaTx, recuperableonly, localtax1Tx, localtax1Type, localtax2Tx, localtax2Type, fkUserAuthor, fkUserModif, tosell, tobuy, onportal, tobatch, fkProductType, duration, seuilStockAlerte, url, barcode, accountancyCodeSell, accountancyCodeBuy, partnumber, weight, weightUnits, length, lengthUnits, width, widthUnits, height, heightUnits, surface, surfaceUnits, volume, volumeUnits, stock, pmp, fifo, lifo, canvas, finished, hidden, importKey, modelPdf, fkPriceExpression, desiredstock, priceAutogen);
+        return Objects.hash(rowid, ref, entity, refExt, datec, tms, fkParent, label, description, notePublic, note, customcode, price, priceTtc, priceMin, priceMinTtc, priceBaseType, costPrice, defaultVatCode, tvaTx, recuperableonly, localtax1Tx, localtax1Type, localtax2Tx, localtax2Type, fkUserAuthor, fkUserModif, tosell, tobuy, onportal, tobatch, fkProductType, duration, seuilStockAlerte, url, barcode, accountancyCodeSell, accountancyCodeBuy, partnumber, weight, weightUnits, length, lengthUnits, width, widthUnits, height, heightUnits, surface, surfaceUnits, volume, volumeUnits, stock, pmp, fifo, lifo, canvas, finished, hidden, importKey, modelPdf, fkPriceExpression, desiredstock, priceAutogen, isSync);
     }
+
+    /*@OneToMany(mappedBy = "endlifeProductByFkProduct")
+    public Collection<EndlifeCategorieProductEntity> getEndlifeCategorieProductsByRowid() {
+        return endlifeCategorieProductsByRowid;
+    }
+
+    public void setEndlifeCategorieProductsByRowid(Collection<EndlifeCategorieProductEntity> endlifeCategorieProductsByRowid) {
+        this.endlifeCategorieProductsByRowid = endlifeCategorieProductsByRowid;
+    }*/
+
+    /*@OneToMany(mappedBy = "endlifeProductByFkProduct")
+    public Collection<EndlifeContratdetEntity> getEndlifeContratdetsByRowid() {
+        return endlifeContratdetsByRowid;
+    }
+
+    public void setEndlifeContratdetsByRowid(Collection<EndlifeContratdetEntity> endlifeContratdetsByRowid) {
+        this.endlifeContratdetsByRowid = endlifeContratdetsByRowid;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "fk_country", referencedColumnName = "rowid")
+    public EndlifeCCountryEntity getEndlifeCCountryByFkCountry() {
+        return endlifeCCountryByFkCountry;
+    }
+
+    public void setEndlifeCCountryByFkCountry(EndlifeCCountryEntity endlifeCCountryByFkCountry) {
+        this.endlifeCCountryByFkCountry = endlifeCCountryByFkCountry;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "fk_barcode_type", referencedColumnName = "rowid")
+    public EndlifeCBarcodeTypeEntity getEndlifeCBarcodeTypeByFkBarcodeType() {
+        return endlifeCBarcodeTypeByFkBarcodeType;
+    }
+
+    public void setEndlifeCBarcodeTypeByFkBarcodeType(EndlifeCBarcodeTypeEntity endlifeCBarcodeTypeByFkBarcodeType) {
+        this.endlifeCBarcodeTypeByFkBarcodeType = endlifeCBarcodeTypeByFkBarcodeType;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "fk_unit", referencedColumnName = "rowid")
+    public EndlifeCUnitsEntity getEndlifeCUnitsByFkUnit() {
+        return endlifeCUnitsByFkUnit;
+    }
+
+    public void setEndlifeCUnitsByFkUnit(EndlifeCUnitsEntity endlifeCUnitsByFkUnit) {
+        this.endlifeCUnitsByFkUnit = endlifeCUnitsByFkUnit;
+    }
+
+    @OneToMany(mappedBy = "endlifeProductByFkProduct")
+    public Collection<EndlifeProductCustomerPriceEntity> getEndlifeProductCustomerPricesByRowid() {
+        return endlifeProductCustomerPricesByRowid;
+    }
+
+    public void setEndlifeProductCustomerPricesByRowid(Collection<EndlifeProductCustomerPriceEntity> endlifeProductCustomerPricesByRowid) {
+        this.endlifeProductCustomerPricesByRowid = endlifeProductCustomerPricesByRowid;
+    }
+
+    @OneToMany(mappedBy = "endlifeProductByFkProduct")
+    public Collection<EndlifeProductFournisseurPriceEntity> getEndlifeProductFournisseurPricesByRowid() {
+        return endlifeProductFournisseurPricesByRowid;
+    }
+
+    public void setEndlifeProductFournisseurPricesByRowid(Collection<EndlifeProductFournisseurPriceEntity> endlifeProductFournisseurPricesByRowid) {
+        this.endlifeProductFournisseurPricesByRowid = endlifeProductFournisseurPricesByRowid;
+    }
+
+    @OneToMany(mappedBy = "endlifeProductByFkProduct")
+    public Collection<EndlifeProductLangEntity> getEndlifeProductLangsByRowid() {
+        return endlifeProductLangsByRowid;
+    }
+
+    public void setEndlifeProductLangsByRowid(Collection<EndlifeProductLangEntity> endlifeProductLangsByRowid) {
+        this.endlifeProductLangsByRowid = endlifeProductLangsByRowid;
+    }
+
+    @OneToMany(mappedBy = "endlifeProductByFkProduct")
+    public Collection<EndlifeProductPriceEntity> getEndlifeProductPricesByRowid() {
+        return endlifeProductPricesByRowid;
+    }
+
+    public void setEndlifeProductPricesByRowid(Collection<EndlifeProductPriceEntity> endlifeProductPricesByRowid) {
+        this.endlifeProductPricesByRowid = endlifeProductPricesByRowid;
+    }*/
 }

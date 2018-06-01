@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 public class ArticleMessageListener {
 
     private EndLifeProductRepository productRepository;
+    //private EndLifeProductCategoryRepository endLifeProductCategoryRepository;
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -44,7 +45,8 @@ public class ArticleMessageListener {
         if(productEntity.getCrud().equals("STORE")) {
             try {
                 EndlifeProductEntity entity = productRepository.save(productEntity);
-                rabbitTemplate.convertAndSend(SpringBootRabbitMQApplication.SFG_MESSAGE_SYNC, entity);
+                //endLifeProductCategoryRepository.save(new EndlifeCategorieProductEntity(1, Math.toIntExact(entity.getRowid())));
+                //rabbitTemplate.convertAndSend(SpringBootRabbitMQApplication.SFG_MESSAGE_SYNC, entity);
             } catch (Exception e) {
                 e.printStackTrace();
             }
